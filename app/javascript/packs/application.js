@@ -11,6 +11,7 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import App from '../app.vue'
 import TurbolinksAdapter from 'vue-turbolinks'
+import Rails from 'rails-ujs'
 //
 // Vue.use(Vuex)
 // Vue.use(TurbolinksAdapter)
