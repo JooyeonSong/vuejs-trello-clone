@@ -13,22 +13,13 @@ Rails.application.routes.draw do
   get '/terms', to: 'home#terms'
   resources :notifications, only: [:index]
   resources :announcements, only: [:index]
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, lambda {|u| u.admin?} do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
 
-  resources :lists do
-    member do
-      patch :move
-    end
-  end
-  resources :cards do
-    member do
-      patch :move
-    end
-  end
-
+  resources :lists
+  resources :cards
   root to: 'lists#index'
 end

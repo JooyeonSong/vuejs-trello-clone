@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: [:show, :edit, :update, :destroy, :move]
+  before_action :set_list, only: [:show, :edit, :update, :destroy]
 
   # GET /lists
   # GET /lists.json
@@ -28,14 +28,11 @@ class ListsController < ApplicationController
 
     respond_to do |format|
       if @list.save
-
-        ActionCable.server.broadcast "board", { commit: 'addList', payload: render_to_string(:show, format: :json) }
-
-        format.html { redirect_to @list, notice: 'List was successfully created.' }
-        format.json { render :show, status: :created, location: @list }
+        format.html {redirect_to @list, notice: 'List was successfully created.'}
+        format.json {render :show, status: :created, location: @list}
       else
-        format.html { render :new }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @list.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -45,11 +42,11 @@ class ListsController < ApplicationController
   def update
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to @list, notice: 'List was successfully updated.' }
-        format.json { render :show, status: :ok, location: @list }
+        format.html {redirect_to @list, notice: 'List was successfully updated.'}
+        format.json {render :show, status: :ok, location: @list}
       else
-        format.html { render :edit }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @list.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -59,25 +56,20 @@ class ListsController < ApplicationController
   def destroy
     @list.destroy
     respond_to do |format|
-      format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to lists_url, notice: 'List was successfully destroyed.'}
+      format.json {head :no_content}
     end
-  end
-
-  def move
-    @list.insert_at(list_params[:position].to_i)
-    ActionCable.server.broadcast "board", { commit: 'moveList', payload: render_to_string(:show, format: :json) }
-    render action: :show
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_list
-      @list = List.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def list_params
-      params.require(:list).permit(:name, :position)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_list
+    @list = List.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def list_params
+    params.require(:list).permit(:name, :position)
+  end
 end
