@@ -18,8 +18,11 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
-
-  resources :lists
+  resources :lists do
+    member do
+      patch :move
+    end
+  end
   resources :cards
   root to: 'lists#index'
 end
