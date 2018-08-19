@@ -75,8 +75,10 @@
                     success: (data) => {
                         const index = window.store.lists.findIndex(item => item.id == this.list.id);
                         window.store.lists[index].cards.push(data);
-
                         this.messages = "";
+                        this.$nextTick(() => {
+                            this.$refs.message.focus()
+                        })
                     }
                 });
             }
