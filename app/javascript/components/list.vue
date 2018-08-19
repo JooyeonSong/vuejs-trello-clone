@@ -6,9 +6,9 @@
                 {{card.name}}
             </div>
         </draggable>
-        <a v-if="editing">Add a card</a>
-        <textarea v-model="messages" class="form-control mb-1"></textarea>
-        <button v-on:click="submitMessages" class="btn btn-secondary">Add</button>
+        <a v-if="!editing" v-on:click="editing=true">Add a card</a>
+        <textarea v-if="editing" v-model="messages" ref="message" class="form-control mb-1"></textarea>
+        <button v-if="editing" v-on:click="submitMessages" class="btn btn-secondary">Add</button>
     </div>
 </template>
 
@@ -22,6 +22,7 @@
 
         data: function () {
             return {
+                editing: false,
                 messages: ""
             }
         },
