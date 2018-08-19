@@ -6,9 +6,10 @@
                 {{card.name}}
             </div>
         </draggable>
-        <a v-if="!editing" v-on:click="editing=true">Add a card</a>
+        <a v-if="!editing" v-on:click="startEditing">Add a card</a>
         <textarea v-if="editing" v-model="messages" ref="message" class="form-control mb-1"></textarea>
         <button v-if="editing" v-on:click="submitMessages" class="btn btn-secondary">Add</button>
+        <a v-if="editing" v-on:click="editable=false">Cancel</a>
     </div>
 </template>
 
@@ -28,6 +29,13 @@
         },
 
         methods: {
+            startEditing: function () {
+                this.editing = true
+                this.$nextTick(() => {
+                    this.$refs.message.focus()
+                })
+            },
+
             cardMoved: function (event) {
                 const evt = event.added || event.moved
                 if (evt == undefined) {
