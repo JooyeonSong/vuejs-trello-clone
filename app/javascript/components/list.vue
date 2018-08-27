@@ -88,15 +88,4 @@
     .dragArea {
         min-height: 10px;
     }
-
-    .list {
-        display: inline-block;
-        border-radius: 3px;
-        padding: 20px;
-        background: #E2E4E6;
-        width: 270px;
-        vertical-align: top;
-        margin-right: 56px;
-    }
-
 </style>
