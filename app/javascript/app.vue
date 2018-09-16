@@ -4,7 +4,7 @@
         <div class="list">
             <a v-if="!editing" v-on:click="startEditing">Add a List</a>
             <textarea v-if="editing" v-model="message" ref="message" class="form-control mb-1"></textarea>
-            <button v-if="editing" v-on:click="submitMessage" class="btn btn-secondary">Add</button>
+            <button v-if="editing" v-on:click="createList" class="btn btn-secondary">Add</button>
             <a v-if="editing" v-on:click="editable=false">Cancel</a>
         </div>
     </draggable>
@@ -18,13 +18,16 @@
     export default {
         components: {draggable, list},
 
-        props: ["original_lists"],
-
         data: function () {
             return {
-                lists: this.original_lists,
                 editing: false,
                 message: "",
+            }
+        },
+
+        computed: {
+            lists(){
+                return this.$store.state.lists;
             }
         },
 
@@ -47,7 +50,7 @@
                 })
             },
 
-            submitMessage: function () {
+            createList: function () {
                 var data = new FormData
                 data.append("list[name]", this.message)
 
@@ -58,7 +61,7 @@
                     data: data,
                     dataType: "json",
                     success: (data) => {
-                        window.store.lists.push(data);
+                        window.store.commit('addList', data);
                         this.message = ""
                         this.editing = false
                     }

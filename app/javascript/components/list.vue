@@ -6,7 +6,7 @@
         </draggable>
         <a v-if="!editing" v-on:click="startEditing">Add a card</a>
         <textarea v-if="editing" v-model="messages" ref="message" class="form-control mb-1"></textarea>
-        <button v-if="editing" v-on:click="submitMessages" class="btn btn-secondary">Add</button>
+        <button v-if="editing" v-on:click="createCard" class="btn btn-secondary">Add</button>
         <a v-if="editing" v-on:click="editable=false">Cancel</a>
     </div>
 </template>
@@ -60,7 +60,7 @@
                     dataType: "json"
                 })
             },
-            submitMessages: function () {
+            createCard: function () {
                 var data = new FormData
                 data.append("card[list_id]", this.list.id)
                 data.append("card[name]", this.messages)
@@ -72,8 +72,7 @@
                     data: data,
                     dataType: "json",
                     success: (data) => {
-                        const index = window.store.lists.findIndex(item => item.id == this.list.id);
-                        window.store.lists[index].cards.push(data);
+                        this.$store.commit('addCard', data);
                         this.messages = "";
                         this.$nextTick(() => {
                             this.$refs.message.focus()
