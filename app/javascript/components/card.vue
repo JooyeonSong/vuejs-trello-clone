@@ -55,7 +55,6 @@
                     data: data,
                     dataType: "json",
                     success: (data) => {
-                        this.$store.commit('editCard', data)
                         this.editing = false
                     }
                 })
